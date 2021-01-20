@@ -48,8 +48,8 @@ export default class AgendaView extends Component {
     /** callback that gets called when day changes while scrolling agenda list */
     onDaychange: PropTypes.func, //TODO: Should be renamed 'onDayChange'
     /** specify how agenda knob should look like */
-    renderKnob: PropTypes.func, 
-    /** initially selected day */ 
+    renderKnob: PropTypes.func,
+    /** initially selected day */
     selected: PropTypes.any, //TODO: Should be renamed 'selectedDay'
     /** Hide knob button. Default = false */
     hideKnob: PropTypes.bool
@@ -386,10 +386,10 @@ export default class AgendaView extends Component {
     const scrollPadPosition = (shouldAllowDragging ? HEADER_HEIGHT : 0) - KNOB_HEIGHT;
     const scrollPadStyle = {
       position: 'absolute',
-      width: 80,
+      width: 300,
       height: KNOB_HEIGHT,
       top: scrollPadPosition,
-      left: (this.viewWidth - 80) / 2
+      left: (this.viewWidth - 300) / 2
     };
 
     return (
