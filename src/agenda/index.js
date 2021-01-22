@@ -382,15 +382,15 @@ export default class AgendaView extends Component {
       // fill header with appStyle.calendarBackground background to reduce flickering
       weekdaysStyle.push({height: HEADER_HEIGHT});
     }
-
+    const knobWidth = 300;
     const shouldAllowDragging = !hideKnob && !this.state.calendarScrollable;
     const scrollPadPosition = (shouldAllowDragging ? HEADER_HEIGHT : 0) - KNOB_HEIGHT;
     const scrollPadStyle = {
       position: 'absolute',
-      width: 80,
+      width: knobWidth,
       height: KNOB_HEIGHT,
       top: scrollPadPosition,
-      left: (this.viewWidth - 80) / 2
+      left: (this.viewWidth - knobWidth) / 2
     };
 
     return (
