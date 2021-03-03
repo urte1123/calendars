@@ -678,7 +678,7 @@
 ### Added
 
 - AgendaList - adding 'dayFormatter' prop to custom format section header's title.
-             - adding 'markToday' prop to control the "TODAY, ..." string appearance.
+             - adding 'markToday' prop to control the "TODAY, ..." string display.
              - passing 'title' as a param for 'renderSectionHeader' callback.
 
 ## [1.506.0] - 2020-12-28
@@ -692,3 +692,29 @@
 ### Fix
 
 - AgendaList - fix 'markToday' check for today's date (equivalence).
+
+
+## [1.1250.0] - 2021-2-22
+
+### Changed
+
+- react-native upgrade to version 63.4.0.
+
+## [1.1251.0] - 2021-2-22
+
+### Changed
+
+- eslint rule 'no-undef' to 'off'.
+
+## [1.1252.0] - 2021-2-22
+
+### Changed
+
+- installing @babel/eslint-parser@7.13.4.
+- eslint rule 'no-undef' remove disabling.
+
+## [1.1253.0] - 2021-2-24
+
+### Changed
+
+- detox upgrade to version 18.6.2.
