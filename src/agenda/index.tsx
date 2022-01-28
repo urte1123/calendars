@@ -11,8 +11,7 @@ import {
   ViewStyle,
   LayoutChangeEvent,
   NativeSyntheticEvent,
-  NativeScrollEvent,
-  TouchableOpacity
+  NativeScrollEvent
 } from 'react-native';
 
 import {extractComponentProps} from '../componentUpdater';
@@ -480,13 +479,11 @@ export default class Agenda extends Component<AgendaProps, State> {
           onScrollEndDrag={this.onSnapAfterDrag}
           onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
         >
-          <TouchableOpacity onPress={() => this.toggleCalendarPosition(true)}>
-            <View
-              testID={AGENDA_CALENDAR_KNOB}
-              style={{height: agendaHeight + KNOB_HEIGHT}}
-              onLayout={this.onScrollPadLayout}
-            />
-          </TouchableOpacity>
+          <View
+            testID={AGENDA_CALENDAR_KNOB}
+            style={{height: agendaHeight + KNOB_HEIGHT}}
+            onLayout={this.onScrollPadLayout}
+          />
         </Animated.ScrollView>
       </View>
     );
