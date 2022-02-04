@@ -481,7 +481,7 @@ export default class Agenda extends Component<AgendaProps, State> {
           onScroll={Animated.event([{nativeEvent: {contentOffset: {y: this.state.scrollY}}}], {useNativeDriver: true})}
         >
           <TouchableOpacity
-            onPress={() => this.toggleCalendarPosition(true)}
+            onPress={() => this.toggleCalendarPosition(!this.state.calendarScrollable)}
             testID={AGENDA_CALENDAR_KNOB}
             style={{height: agendaHeight + KNOB_HEIGHT}}
             onLayout={this.onScrollPadLayout}
