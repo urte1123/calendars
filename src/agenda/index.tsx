@@ -30,6 +30,7 @@ import ReservationList, {ReservationListProps} from './reservation-list';
 
 const HEADER_HEIGHT = 104;
 const KNOB_HEIGHT = 24;
+const ADDITIONAL_OPEN_HEIGHT = 20;
 
 export type AgendaProps = CalendarListProps &
   ReservationListProps & {
@@ -114,14 +115,14 @@ export default class Agenda extends Component<AgendaProps, State> {
     super(props);
 
     this.style = styleConstructor(props.theme);
-
+    
     const windowSize = Dimensions.get('window');
     this.viewHeight = windowSize.height;
     this.viewWidth = windowSize.width;
-
+    
     this.scrollTimeout = undefined;
     this.headerState = 'idle';
-
+    
     this.state = {
       scrollY: new Animated.Value(0),
       calendarIsReady: false,
@@ -132,7 +133,7 @@ export default class Agenda extends Component<AgendaProps, State> {
     };
 
     this.currentMonth = this.state.selectedDay.clone();
-
+    
     this.knobTracker = new VelocityTracker();
     this.state.scrollY.addListener(({value}: any) => this.knobTracker.add(value));
   }
@@ -373,7 +374,12 @@ export default class Agenda extends Component<AgendaProps, State> {
       knob =
         !this.state.calendarScrollable || showClosingKnob ? (
           <View style={this.style.knobContainer}>
-            <View ref={this.knob}>{knobView}</View>
+            <View 
+              style={[this.state.calendarScrollable && {bottom: ADDITIONAL_OPEN_HEIGHT}]}
+              ref={this.knob}
+            >
+              {knobView}
+            </View>
           </View>
         ) : null;
     }
@@ -441,10 +447,11 @@ export default class Agenda extends Component<AgendaProps, State> {
     }
 
     const knobWidth = 300;
+    const activeKnobHeight = KNOB_HEIGHT + (this.state.calendarScrollable ?  ADDITIONAL_OPEN_HEIGHT: 0);
     const openCalendarScrollPadPosition =
       !hideKnob && this.state.calendarScrollable && this.props.showClosingKnob ? agendaHeight + HEADER_HEIGHT : 0;
     const shouldAllowDragging = !hideKnob && !this.state.calendarScrollable;
-    const scrollPadPosition = (shouldAllowDragging ? HEADER_HEIGHT : openCalendarScrollPadPosition) - KNOB_HEIGHT;
+    const scrollPadPosition = (shouldAllowDragging ? HEADER_HEIGHT : openCalendarScrollPadPosition) - activeKnobHeight;
     const scrollPadStyle = {
       position: 'absolute',
       width: knobWidth,
