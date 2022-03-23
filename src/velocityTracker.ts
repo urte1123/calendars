@@ -1,3 +1,5 @@
+import { Platform } from "react-native";
+
 export class VelocityTracker {
   history: number[];
   lastPosition?: number;
@@ -22,7 +24,10 @@ export class VelocityTracker {
   }
 
   estimateSpeed() {
-    const finalTrend = this.history.slice(-3);
+    // on iOS the most recent registered velocity in the history array often is an inverted value
+    // therefore it should be ignored on iOS, and an earlier value should be taken instead
+    const isIos = Platform.OS === "ios"
+    const finalTrend = this.history.slice(isIos ? -4 : -3, ...(isIos ? [-1] : []));
     const sum = finalTrend.reduce((r, v) => r + v, 0);
     return sum / finalTrend.length;
   }
