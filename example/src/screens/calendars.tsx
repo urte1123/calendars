@@ -1,5 +1,5 @@
-import React, {useState, Fragment, useCallback} from 'react';
-import {StyleSheet, View, ScrollView, Text, TouchableOpacity, Switch} from 'react-native';
+import React, {useState, Fragment, useCallback, useMemo} from 'react';
+import {StyleSheet, View, ScrollView, Text, TouchableOpacity} from 'react-native';
 import {Calendar, CalendarProps} from 'react-native-calendars';
 import testIDs from '../testIDs';
 
@@ -7,15 +7,21 @@ const INITIAL_DATE = '2020-02-02';
 
 const CalendarsScreen = () => {
   const [selected, setSelected] = useState(INITIAL_DATE);
-  const [showMarkedDatesExamples, setShowMarkedDatesExamples] = useState(false);
 
-  const toggleSwitch = () => {
-    setShowMarkedDatesExamples(!showMarkedDatesExamples);
-  };
-
-  const onDayPress: CalendarProps['onDayPress'] = day => {
+  const onDayPress: CalendarProps['onDayPress'] = useCallback(day => {
     setSelected(day.dateString);
-  };
+  }, []);
+
+  const marked = useMemo(() => {
+    return {
+      [selected]: {
+        selected: true,
+        disableTouchEvent: true,
+        selectedColor: 'orange',
+        selectedTextColor: 'red'
+      }
+    };
+  }, [selected]);
 
   const renderCalendarWithSelectableDate = () => {
     return (
@@ -27,14 +33,7 @@ const CalendarsScreen = () => {
           current={INITIAL_DATE}
           style={styles.calendar}
           onDayPress={onDayPress}
-          markedDates={{
-            [selected]: {
-              selected: true,
-              disableTouchEvent: true,
-              selectedColor: 'orange',
-              selectedTextColor: 'red'
-            }
-          }}
+          markedDates={marked}
         />
       </Fragment>
     );
@@ -44,7 +43,7 @@ const CalendarsScreen = () => {
     return (
       <Fragment>
         <Text style={styles.text}>Calendar with week numbers</Text>
-        <Calendar style={styles.calendar} hideExtraDays showWeekNumbers />
+        <Calendar style={styles.calendar} hideExtraDays showWeekNumbers/>
       </Fragment>
     );
   };
@@ -184,7 +183,7 @@ const CalendarsScreen = () => {
               }
             },
             '2012-05-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
-            '2012-05-24': {color: '#70d7c7', textColor: 'white'},
+            '2012-05-24': {color: '#70d7c7', inactive: true},
             '2012-05-25': {
               endingDay: true,
               color: '#50cebb',
@@ -194,13 +193,16 @@ const CalendarsScreen = () => {
                 borderBottomRightRadius: 5
               }
             },
-            '2012-05-30': {disabled: true, disableTouchEvent: true}
+            '2012-05-30': {inactive: true, disableTouchEvent: true}
           }}
           disabledDaysIndexes={[0, 6]}
           theme={{
+            textInactiveColor: '#a68a9f',
             textSectionTitleDisabledColor: 'grey',
-            textSectionTitleColor: '#00BBF2'
+            textSectionTitleColor: '#319e8e',
+            arrowColor: '#319e8e'
           }}
+          onDayPress={(day) => console.warn(`${day.dateString} pressed`)}
         />
       </Fragment>
     );
@@ -259,7 +261,8 @@ const CalendarsScreen = () => {
                   elevation: 2
                 },
                 text: {
-                  color: 'red'
+                  color: 'red',
+                  marginTop: 0
                 }
               }
             },
@@ -454,19 +457,6 @@ const CalendarsScreen = () => {
     );
   };
 
-  const renderMarkedDatesExamples = () => {
-    return (
-      <Fragment>
-        {renderCalendarWithMarkedDatesAndHiddenArrows()}
-        {renderCalendarWithMultiDotMarking()}
-        {renderCalendarWithPeriodMarkingAndSpinner()}
-        {renderCalendarWithPeriodMarkingAndDotMarking()}
-        {renderCalendarWithMultiPeriodMarking()}
-        {renderCalendarWithCustomMarkingType()}
-      </Fragment>
-    );
-  };
-
   const renderExamples = () => {
     return (
       <Fragment>
@@ -477,29 +467,19 @@ const CalendarsScreen = () => {
         {renderCalendarWithInactiveDays()}
         {renderCalendarWithCustomHeaderTitle()}
         {renderCalendarWithCustomHeader()}
+        {renderCalendarWithMarkedDatesAndHiddenArrows()}
+        {renderCalendarWithMultiDotMarking()}
+        {renderCalendarWithPeriodMarkingAndSpinner()}
+        {renderCalendarWithPeriodMarkingAndDotMarking()}
+        {renderCalendarWithMultiPeriodMarking()}
+        {renderCalendarWithCustomMarkingType()}
       </Fragment>
-    );
-  };
-
-  const renderSwitch = () => {
-    // Workaround for Detox 18 migration bug
-    return (
-      <View style={styles.switchContainer}>
-        <Switch
-          trackColor={{false: '#d9e1e8', true: '#00BBF2'}}
-          onValueChange={toggleSwitch}
-          value={showMarkedDatesExamples}
-        />
-        <Text style={styles.switchText}>Show markings examples</Text>
-      </View>
     );
   };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} testID={testIDs.calendars.CONTAINER}>
-      {renderSwitch()}
-      {showMarkedDatesExamples && renderMarkedDatesExamples()}
-      {!showMarkedDatesExamples && renderExamples()}
+      {renderExamples()}
     </ScrollView>
   );
 };
