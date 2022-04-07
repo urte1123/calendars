@@ -115,8 +115,8 @@ export default class Agenda extends Component<AgendaProps, State> {
       calendarIsReady: false,
       calendarScrollable: false,
       firstReservationLoad: false,
-      selectedDay: this.getSelectedDate(),
-      topDay: this.getSelectedDate()
+      selectedDay: this.getSelectedDate(props.selected),
+      topDay: this.getSelectedDate(props.selected)
     };
 
     this.currentMonth = this.state.selectedDay.clone();
@@ -136,9 +136,13 @@ export default class Agenda extends Component<AgendaProps, State> {
   }
 
   componentDidUpdate(prevProps: AgendaProps, prevState: State) {
-    const newSelectedDate = this.getSelectedDate();
+    const newSelectedDate = this.getSelectedDate(this.props.selected);
+    
     if (!sameDate(newSelectedDate, prevState.selectedDay)) {
-      this.setState({selectedDay: newSelectedDate});
+      const prevSelectedDate = this.getSelectedDate(prevProps.selected);
+      if (!sameDate(newSelectedDate, prevSelectedDate)) {
+        this.setState({selectedDay: newSelectedDate});
+      }
     } else if (!prevProps.items) {
       this.loadReservations(this.props);
     }
@@ -151,8 +155,7 @@ export default class Agenda extends Component<AgendaProps, State> {
     return null;
   }
 
-  getSelectedDate() {
-    const {selected} = this.props;
+  getSelectedDate(selected?: string) {
     return selected ? parseDate(selected) : new XDate(true);
   }
 
