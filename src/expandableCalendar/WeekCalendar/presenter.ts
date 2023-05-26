@@ -1,7 +1,7 @@
 import XDate from 'xdate';
 
 import React from 'react';
-import {FlatList} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 
 import {toMarkingFormat} from '../../interface';
 import {DateData} from '../../types';
@@ -18,7 +18,7 @@ class Presenter {
   private _applyAndroidRtlFix = constants.isAndroid && constants.isRTL;
   // On Android+RTL there's an initial scroll that cause issues
   private _firstAndroidRTLScrollIgnored = !this._applyAndroidRtlFix;
-  public list: React.RefObject<FlatList> = React.createRef();
+  public list: React.RefObject<FlashList> = React.createRef();
 
   scrollToIndex = (animated: boolean) => {
     this.list?.current?.scrollToIndex({animated, index: NUMBER_OF_PAGES});

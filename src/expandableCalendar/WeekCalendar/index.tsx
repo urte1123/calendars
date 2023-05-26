@@ -4,7 +4,8 @@ import XDate from 'xdate';
 import {Map} from 'immutable';
 
 import React, {Component} from 'react';
-import {FlatList, View, NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
+import {View, NativeSyntheticEvent, NativeScrollEvent} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 
 import {extractComponentProps} from '../../componentUpdater';
 import {sameWeek} from '../../dateutils';
@@ -198,7 +199,7 @@ class WeekCalendar extends Component<WeekCalendarProps, State> {
             {this.renderWeekDaysNames()}
           </View>
         )}
-        <FlatList
+        <FlashList
           ref={this.presenter.list}
           data={items}
           extraData={extraData}

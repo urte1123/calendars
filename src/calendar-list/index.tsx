@@ -2,7 +2,8 @@ import PropTypes from 'prop-types';
 import XDate from 'xdate';
 
 import React, {Component} from 'react';
-import {FlatList, View, ViewStyle, LayoutChangeEvent, FlatListProps} from 'react-native';
+import {View, ViewStyle, LayoutChangeEvent, FlatListProps} from 'react-native';
+import { FlashList } from '@shopify/flash-list';
 
 import {extractComponentProps} from '../componentUpdater';
 import {xdateToData, parseDate} from '../interface';
@@ -113,7 +114,7 @@ class CalendarList extends Component<CalendarListProps, State> {
   };
 
   style: any;
-  list: React.RefObject<FlatList> = React.createRef();
+  list: React.RefObject<FlashList> = React.createRef();
   viewabilityConfig = {
     itemVisiblePercentThreshold: 20
   };
@@ -328,7 +329,7 @@ class CalendarList extends Component<CalendarListProps, State> {
 
     return (
       <View style={this.style.flatListContainer}>
-        <FlatList
+        <FlashList
           ref={this.list}
           style={[this.style.container, style]}
           // @ts-expect-error
