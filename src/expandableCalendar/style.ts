@@ -14,6 +14,7 @@ export default function styleConstructor(theme: Theme = {}) {
   return StyleSheet.create({
     containerShadow: {
       backgroundColor: appStyle.calendarBackground,
+      flex: 1,
       ...Platform.select({
         ios: {
           shadowColor: '#858F96',
@@ -28,7 +29,8 @@ export default function styleConstructor(theme: Theme = {}) {
       })
     },
     containerWrapper: {
-      paddingBottom: 6
+      paddingBottom: 6,
+      flex: 1,
     },
     container: {
       backgroundColor: appStyle.calendarBackground
